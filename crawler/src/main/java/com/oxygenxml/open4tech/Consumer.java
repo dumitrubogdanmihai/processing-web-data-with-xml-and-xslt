@@ -29,9 +29,18 @@ class Consumer implements IConsumer {
       try {
         String page = queue.take();
         this.getData(page);
+        if (Thread.interrupted()) {
+          driver.close();
+          break;
+        }
       } catch (Exception e) {
         e.printStackTrace();
       }
     }
+  }
+
+  @Override
+  public void close() {
+    driver.close();
   }
 }

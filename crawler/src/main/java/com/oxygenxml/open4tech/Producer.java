@@ -14,7 +14,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import com.oxygenxml.open4tech.interfaces.IProducer;
 
 class Producer implements IProducer{
-
   private WebDriver driver;
   private BlockingQueue<String> queue;
   private int pageNr;
@@ -52,8 +51,12 @@ class Producer implements IProducer{
     List<WebElement> anchors = driver.findElements(By.cssSelector(".offer-wrapper .title-cell a"));
     for (WebElement anchor : anchors) {
       String href = anchor.getAttribute("href");
-      System.out.println("Produce: " + href);
-      toReturn.add(href);
+      if (href.startsWith("https://www.olx.ro/oferta/")) {
+        System.out.println("Produce: " + href);
+        toReturn.add(href);
+      } else {
+        // Ignore links to autovit.
+      }
     }
     return toReturn;
   }

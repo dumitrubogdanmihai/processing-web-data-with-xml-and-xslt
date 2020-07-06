@@ -16,6 +16,7 @@ public class Crawler {
       consumer.start();
     }).start();
     producer.startAndWaitFinnish();
+    consumer.close();
   }
 
   private static void setup() {
