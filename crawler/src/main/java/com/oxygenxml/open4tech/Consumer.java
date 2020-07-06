@@ -3,6 +3,7 @@ package com.oxygenxml.open4tech;
 import java.util.concurrent.BlockingQueue;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import com.oxygenxml.open4tech.interfaces.IConsumer;
@@ -18,9 +19,9 @@ class Consumer implements IConsumer {
   }
 
   public String getData(String page) {
-    System.out.println("Consume: " + page);
     driver.get(page);
-    driver.findElement(By.cssSelector(".offer-titlebox h1"));
+    WebElement title = driver.findElement(By.cssSelector(".offer-titlebox h1"));
+    System.out.println("Consume: " + page + "  -  \"" + title.getText() + "\"");
     return driver.getPageSource();
   }
 
