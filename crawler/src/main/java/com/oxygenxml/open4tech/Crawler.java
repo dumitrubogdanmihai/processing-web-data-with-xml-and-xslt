@@ -3,8 +3,19 @@ import java.io.File;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+/**
+ * Crawler for olx.ro.
+ * It saves in target/pages/*.html the car ads.
+ */
 public class Crawler {
 
+  /**
+   * Main.
+   * 
+   * @param args Arguments array.
+   *
+   * @throws InterruptedException If interrupted.
+   */
   public static void main(String[] args) throws InterruptedException {
     setup();
 

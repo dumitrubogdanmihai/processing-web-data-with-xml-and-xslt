@@ -1,5 +1,7 @@
 package com.oxygenxml.open4tech;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.util.concurrent.BlockingQueue;
 
 import org.openqa.selenium.By;
@@ -28,8 +30,18 @@ class Consumer implements IConsumer {
   public void start() {
     while(true) {
       try {
-        String page = queue.take();
-        this.getData(page);
+        String pageUrl = queue.take();
+        String pageContent = this.getData(pageUrl);
+        File outputDir = new File("target/pages/");
+        outputDir.mkdirs();
+
+        File outputFile = new File("target/pages/" + getPageId(pageUrl) + ".html");
+        if (!outputFile.exists()) {
+          try (FileWriter fileWriter = new FileWriter(outputFile)) {
+            fileWriter.write(pageContent);
+          }
+        }
+
         if (Thread.interrupted()) {
           driver.close();
           break;
@@ -38,6 +50,10 @@ class Consumer implements IConsumer {
         e.printStackTrace();
       }
     }
+  }
+
+  static String getPageId(String url) {
+    return url.replaceAll("https://www.olx.ro/oferta/.*-([^-]+)[.]html.*", "$1");
   }
 
   @Override

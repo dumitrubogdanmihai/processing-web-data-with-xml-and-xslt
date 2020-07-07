@@ -1,4 +1,5 @@
 package com.oxygenxml.open4tech;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.concurrent.ArrayBlockingQueue;
@@ -18,5 +19,14 @@ public class ConsumerTest {
     } finally {
       consumer.close();
     }
+  }
+
+  @Test
+  public void testGetPageId() {
+    String pageId = Consumer.getPageId("https://www.olx.ro/oferta/renault-twingo-IDdPgpu.html#aa");
+    assertEquals("IDdPgpu", pageId);
+
+    pageId = Consumer.getPageId("https://www.olx.ro/oferta/audi-q7-s-line-ultra-extra-full-IDdO2NO.html#6256e9ac30;promoted");
+    assertEquals("IDdO2NO", pageId);
   }
 }
