@@ -40,7 +40,7 @@ class Producer implements IProducer{
       this.driver.get(currentPage);
       return true;
     } else {
-      driver.close();
+      this.close();
       return false;
     }
   }
@@ -59,5 +59,10 @@ class Producer implements IProducer{
       }
     }
     return toReturn;
+  }
+
+  @Override
+  public void close() {
+    driver.close();
   }
 }

@@ -6,4 +6,5 @@ public interface IProducer {
   List<String> getPagesToConsume();
   boolean next();
   void startAndWaitFinnish() throws InterruptedException;
+  void close();
 }

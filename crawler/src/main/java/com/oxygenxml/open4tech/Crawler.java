@@ -19,7 +19,7 @@ public class Crawler {
     consumer.close();
   }
 
-  private static void setup() {
+  static void setup() {
     File webdriverFile = new File("target/chromedriver.exe");
     if (!webdriverFile.exists()) {
       System.out.println("Missing Chrome driver: " + webdriverFile + ". "
