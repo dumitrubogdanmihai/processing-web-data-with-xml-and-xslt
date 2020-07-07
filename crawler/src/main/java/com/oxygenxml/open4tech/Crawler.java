@@ -5,7 +5,7 @@ import java.util.concurrent.BlockingQueue;
 
 /**
  * Crawler for olx.ro.
- * It saves in target/pages/*.html the car ads.
+ * It saves in target/pages/*.xhtml the car ads.
  */
 public class Crawler {
 
