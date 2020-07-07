@@ -1,7 +1,7 @@
 package com.oxygenxml.open4tech.interfaces;
 
 public interface IConsumer {
-  String getData(String page);
+  String getPageHtml(String page);
   void start();
   void close();
 }

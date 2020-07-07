@@ -2,6 +2,7 @@ package com.oxygenxml.open4tech;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 
 import org.openqa.selenium.By;
@@ -12,15 +13,18 @@ import com.oxygenxml.open4tech.interfaces.IConsumer;
 
 class Consumer implements IConsumer {
 
-  private ChromeDriver driver;
-  private BlockingQueue<String> queue;
-
+  private final ChromeDriver driver;
+  private final BlockingQueue<String> queue;
+  private final File outputDir;
+  
   public Consumer(BlockingQueue<String> queue) {
     this.queue = queue;
     this.driver = new ChromeDriver();
+    this.outputDir = new File("target/pages/");
+    this.outputDir.mkdirs();
   }
 
-  public String getData(String page) {
+  public String getPageHtml(String page) {
     driver.get(page);
     WebElement title = driver.findElement(By.cssSelector(".offer-titlebox h1"));
     System.out.println("Consume: " + page + "  -  \"" + title.getText() + "\"");
@@ -31,16 +35,9 @@ class Consumer implements IConsumer {
     while(true) {
       try {
         String pageUrl = queue.take();
-        String pageContent = this.getData(pageUrl);
-        File outputDir = new File("target/pages/");
-        outputDir.mkdirs();
+        String htmlPageContent = this.getPageHtml(pageUrl);
 
-        File outputFile = new File("target/pages/" + getPageId(pageUrl) + ".html");
-        if (!outputFile.exists()) {
-          try (FileWriter fileWriter = new FileWriter(outputFile)) {
-            fileWriter.write(pageContent);
-          }
-        }
+        writePageContent(pageUrl, htmlPageContent);
 
         if (Thread.interrupted()) {
           driver.close();
@@ -48,6 +45,16 @@ class Consumer implements IConsumer {
         }
       } catch (Exception e) {
         e.printStackTrace();
+      }
+    }
+  }
+
+  private void writePageContent(String pageUrl, String htmlContent) throws IOException {
+    String xhtml = JSoupUtil.convertHtmlToXhtml(htmlContent);
+    File outputFile = new File("target/pages/" + getPageId(pageUrl) + ".xhtml");
+    if (!outputFile.exists()) {
+      try (FileWriter fileWriter = new FileWriter(outputFile)) {
+        fileWriter.write(xhtml);
       }
     }
   }
