@@ -1,8 +1,10 @@
 package com.oxygenxml.open4tech;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.BlockingQueue;
 
 import org.openqa.selenium.By;
@@ -53,8 +55,9 @@ class Consumer implements IConsumer {
     String xhtml = JSoupUtil.convertHtmlToXhtml(htmlContent);
     File outputFile = new File("target/pages/" + getPageId(pageUrl) + ".xhtml");
     if (!outputFile.exists()) {
-      try (FileWriter fileWriter = new FileWriter(outputFile)) {
-        fileWriter.write(xhtml);
+      try (OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(outputFile), StandardCharsets.UTF_8)) {
+        osw.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+        osw.write(xhtml);
       }
     }
   }
