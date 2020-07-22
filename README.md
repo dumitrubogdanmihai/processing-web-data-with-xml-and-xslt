@@ -7,4 +7,4 @@ Here lies the project developed during Open4Tech Summer School 2020
 
 Recordings:
 * [1st day](https://www.youtube.com/watch?v=WuaRTdGhmdY)
-* [1nd day](https://www.youtube.com/watch?v=uwsyr4xFEJY)
+* [2nd day](https://www.youtube.com/watch?v=uwsyr4xFEJY)
